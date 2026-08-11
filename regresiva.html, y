@@ -1,0 +1,135 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cuenta regresiva</title>
+
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: white;
+        text-align: center;
+    }
+
+    .contenedor {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .evento {
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    #tiempo {
+        font-size: clamp(60px, 15vw, 120px);
+        font-weight: bold;
+        letter-spacing: 4px;
+    }
+
+    #mensaje {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <h1>⏳ Cuenta regresiva</h1>
+
+    <div class="evento">
+        Partido — 8:00 p. m.
+    </div>
+
+    <div id="tiempo">
+        Cargando...
+    </div>
+
+    <div id="mensaje">
+        Tiempo restante
+    </div>
+
+</div>
+
+<script>
+
+    /*
+       HORA DEL EVENTO
+       20:00 = 8:00 p. m.
+       Nicaragua utiliza UTC-6.
+    */
+
+    const horaFinal = new Date();
+
+    horaFinal.setHours(20, 0, 0, 0);
+
+
+    function actualizar() {
+
+        const ahora = new Date();
+
+        let restante = horaFinal - ahora;
+
+
+        // Si ya llegó la hora
+        if (restante <= 0) {
+
+            document.getElementById("tiempo").textContent = "00:00:00";
+
+            document.getElementById("mensaje").textContent =
+                "🏁 ¡El partido ha comenzado!";
+
+            return;
+        }
+
+
+        // Convertimos milisegundos a segundos
+        let segundos = Math.floor(restante / 1000);
+
+
+        const horas = Math.floor(segundos / 3600);
+
+        segundos %= 3600;
+
+        const minutos = Math.floor(segundos / 60);
+
+        segundos %= 60;
+
+
+        document.getElementById("tiempo").textContent =
+
+            String(horas).padStart(2, "0") + ":" +
+
+            String(minutos).padStart(2, "0") + ":" +
+
+            String(segundos).padStart(2, "0");
+
+
+        setTimeout(actualizar, 250);
+    }
+
+
+    actualizar();
+
+</script>
+
+</body>
+</html>
+```
